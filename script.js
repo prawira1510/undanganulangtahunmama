@@ -61,6 +61,13 @@ function startCountdown() {
                     countdownSection.querySelector('.container').appendChild(messageDiv);
                 }
             }
+            
+            // Add glow effect to countdown wrapper
+            const wrapper = document.querySelector('.countdown-wrapper');
+            if (wrapper) {
+                wrapper.classList.add('active');
+                setTimeout(() => wrapper.classList.remove('active'), 1500);
+            }
             return;
         }
         
@@ -74,11 +81,13 @@ function startCountdown() {
         document.getElementById('minutes').innerHTML = minutes.toString().padStart(2, '0');
         document.getElementById('seconds').innerHTML = seconds.toString().padStart(2, '0');
         
-        // Pulse effect when less than 24 hours
+        // Add pulse effect when less than 24 hours
         if (days === 0 && hours < 24 && distance > 0) {
-            document.querySelectorAll('.countdown-card').forEach(card => {
-                card.style.animation = 'pulseGlow 1.5s infinite';
-            });
+            const wrapper = document.querySelector('.countdown-wrapper');
+            if (wrapper && !wrapper.classList.contains('active')) {
+                wrapper.classList.add('active');
+                setTimeout(() => wrapper.classList.remove('active'), 1500);
+            }
         }
     }
     
@@ -290,7 +299,8 @@ if (typeof AOS !== 'undefined') {
     AOS.init({
         duration: 800,
         once: true,
-        offset: 100
+        offset: 100,
+        easing: 'ease-out-quad'
     });
 }
 
